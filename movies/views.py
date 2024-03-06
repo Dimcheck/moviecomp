@@ -2,8 +2,6 @@ from movies.models import Movie
 from movies.serializers import MovieSerializer
 from movies.helpers import take_random_movie
 
-from enjoyers import permissions as custom_permissions
-
 from rest_framework.response import Response
 from rest_framework import generics, views, status, permissions
 
@@ -17,7 +15,7 @@ class MovieList(generics.ListAPIView):
 class MovieRetrive(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MovieSerializer
     queryset = Movie.objects.all()
-    permission_classes = [custom_permissions.IsSuperUserOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class MovieCreate(views.APIView):
