@@ -35,7 +35,7 @@ ALLOWED_HOSTS = ['*']
 
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.up.railway.app",
+    "https://web-production-8c7f.up.railway.app",
 ]
 
 CORS_ORIGIN_WHITELIST = (
