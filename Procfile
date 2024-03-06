@@ -1,0 +1,1 @@
+ web: gunicorn 'moviecomp.wsgi'
