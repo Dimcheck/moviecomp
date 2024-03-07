@@ -13,6 +13,8 @@ from rest_framework import generics, permissions
 
 
 class MovieEnjoyersCreate(generics.CreateAPIView):
+    """Create User"""
+
     serializer_class = MovieEnjoyerCreateSerializer
 
     def post(self, request, *args, **kwargs):
@@ -22,6 +24,10 @@ class MovieEnjoyersCreate(generics.CreateAPIView):
 
 
 class MovieEnjoyersRetrieve(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Get User by it's ID and if you have enough permission you can manage it
+    """
+
     serializer_class = MovieEnjoyerDetailSerializer
     queryset = MovieEnjoyer.objects.all()
     permission_classes = [
@@ -31,11 +37,18 @@ class MovieEnjoyersRetrieve(generics.RetrieveUpdateDestroyAPIView):
 
 
 class MovieEnjoyersList(generics.ListAPIView):
+    """Get all Users with their PerspnalCompilations"""
+
     serializer_class = MovieEnjoyerDetailSerializer
     queryset = MovieEnjoyer.objects.all()
 
 
 class PersonalCompAppend(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Get PersonalCompilation, if you have enough permission - manage it
+    To extend compilation, add Movie IDs to it.
+    """
+
     serializer_class = AddMovieSerializer
     queryset = PersonalComp.objects.all()
     permission_classes = [
@@ -45,6 +58,10 @@ class PersonalCompAppend(generics.RetrieveUpdateDestroyAPIView):
 
 
 class PersonalCompCreate(generics.CreateAPIView):
+    """
+    Create PersonalCompilation
+    """
+
     serializer_class = PersonalCompCreateSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -53,6 +70,10 @@ class PersonalCompCreate(generics.CreateAPIView):
 
 
 class PersonalCompList(generics.ListAPIView):
+    """
+    Get all PersonalCompilation
+    """
+
     serializer_class = PersonalCompDetailSerializer
     queryset = PersonalComp.objects.all()
 

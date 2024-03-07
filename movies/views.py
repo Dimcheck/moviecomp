@@ -7,18 +7,27 @@ from rest_framework import generics, views, status, permissions
 
 
 class MovieList(generics.ListAPIView):
+    """Get all movies with filter options"""
+
     serializer_class = MovieSerializer
     queryset = Movie.objects.all()
-    filterset_fields = ('release_date', 'director', 'cast')
+    filterset_fields = ('name', 'release_date', 'director', 'cast')
 
 
 class MovieRetrive(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Get movie by it's ID and if you have enough permission you can manage it
+    """
+
     serializer_class = MovieSerializer
     queryset = Movie.objects.all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class MovieCreate(views.APIView):
+    """Adds random movie from OMDBAPI"""
+
+    serializer_class = None
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def post(self, *args, **kwargs):

@@ -1,0 +1,692 @@
+openapi: 3.0.3
+info:
+  title: MovieComp API
+  version: 1.0.0
+  description: Manage personal movie compilations
+paths:
+  /rest-movies/movie:
+    post:
+      operationId: rest_movies_movie_create
+      description: Adds random movie from OMDBAPI
+      tags:
+      - rest-movies
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          description: No response body
+  /rest-movies/movie/{id}:
+    get:
+      operationId: rest_movies_movie_retrieve
+      description: Get movie by it's ID and if you have enough permission you can
+        manage it
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rest-movies
+      security:
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+          description: ''
+    put:
+      operationId: rest_movies_movie_update
+      description: Get movie by it's ID and if you have enough permission you can
+        manage it
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rest-movies
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Movie'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Movie'
+        required: true
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+          description: ''
+    patch:
+      operationId: rest_movies_movie_partial_update
+      description: Get movie by it's ID and if you have enough permission you can
+        manage it
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rest-movies
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMovie'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMovie'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMovie'
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+          description: ''
+    delete:
+      operationId: rest_movies_movie_destroy
+      description: Get movie by it's ID and if you have enough permission you can
+        manage it
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rest-movies
+      security:
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /rest-movies/movies/:
+    get:
+      operationId: rest_movies_movies_list
+      description: Get all movies with filter options
+      parameters:
+      - in: query
+        name: cast
+        schema:
+          type: string
+      - in: query
+        name: director
+        schema:
+          type: string
+      - in: query
+        name: name
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: release_date
+        schema:
+          type: string
+          format: date-time
+      tags:
+      - rest-movies
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMovieList'
+          description: ''
+  /rest-users/compilation/:
+    post:
+      operationId: rest_users_compilation_create
+      description: Create PersonalCompilation
+      tags:
+      - rest-users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonalCompCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PersonalCompCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PersonalCompCreate'
+        required: true
+      security:
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonalCompCreate'
+          description: ''
+  /rest-users/compilation/{id}:
+    get:
+      operationId: rest_users_compilation_retrieve
+      description: |-
+        Get PersonalCompilation, if you have enough permission - manage it
+        To extend compilation, add Movie IDs to it.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rest-users
+      security:
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddMovie'
+          description: ''
+    put:
+      operationId: rest_users_compilation_update
+      description: |-
+        Get PersonalCompilation, if you have enough permission - manage it
+        To extend compilation, add Movie IDs to it.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rest-users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMovie'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AddMovie'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddMovie'
+        required: true
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddMovie'
+          description: ''
+    patch:
+      operationId: rest_users_compilation_partial_update
+      description: |-
+        Get PersonalCompilation, if you have enough permission - manage it
+        To extend compilation, add Movie IDs to it.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rest-users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAddMovie'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAddMovie'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAddMovie'
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddMovie'
+          description: ''
+    delete:
+      operationId: rest_users_compilation_destroy
+      description: |-
+        Get PersonalCompilation, if you have enough permission - manage it
+        To extend compilation, add Movie IDs to it.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rest-users
+      security:
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /rest-users/compilations/:
+    get:
+      operationId: rest_users_compilations_list
+      description: Get all PersonalCompilation
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - rest-users
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPersonalCompDetailList'
+          description: ''
+  /rest-users/enjoyer/:
+    post:
+      operationId: rest_users_enjoyer_create
+      description: Create User
+      tags:
+      - rest-users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieEnjoyerCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MovieEnjoyerCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MovieEnjoyerCreate'
+        required: true
+      security:
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieEnjoyerCreate'
+          description: ''
+  /rest-users/enjoyer/{id}:
+    get:
+      operationId: rest_users_enjoyer_retrieve
+      description: Get User by it's ID and if you have enough permission you can manage
+        it
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rest-users
+      security:
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieEnjoyerDetail'
+          description: ''
+    put:
+      operationId: rest_users_enjoyer_update
+      description: Get User by it's ID and if you have enough permission you can manage
+        it
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rest-users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieEnjoyerDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MovieEnjoyerDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MovieEnjoyerDetail'
+        required: true
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieEnjoyerDetail'
+          description: ''
+    patch:
+      operationId: rest_users_enjoyer_partial_update
+      description: Get User by it's ID and if you have enough permission you can manage
+        it
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rest-users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMovieEnjoyerDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMovieEnjoyerDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMovieEnjoyerDetail'
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieEnjoyerDetail'
+          description: ''
+    delete:
+      operationId: rest_users_enjoyer_destroy
+      description: Get User by it's ID and if you have enough permission you can manage
+        it
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - rest-users
+      security:
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+  /rest-users/enjoyers/:
+    get:
+      operationId: rest_users_enjoyers_list
+      description: Get all Users with their PerspnalCompilations
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - rest-users
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMovieEnjoyerDetailList'
+          description: ''
+components:
+  schemas:
+    AddMovie:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 50
+        movies:
+          type: array
+          items:
+            type: integer
+      required:
+      - name
+    Movie:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        release_date:
+          type: string
+          format: date-time
+          nullable: true
+        director:
+          type: string
+          maxLength: 100
+        cast:
+          type: string
+          maxLength: 200
+      required:
+      - cast
+      - director
+      - id
+      - name
+    MovieEnjoyerCreate:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          maxLength: 128
+      required:
+      - password
+      - username
+    MovieEnjoyerDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        date_joined:
+          type: string
+          format: date-time
+        compilation:
+          type: array
+          items:
+            type: integer
+      required:
+      - compilation
+      - id
+      - username
+    PaginatedMovieEnjoyerDetailList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MovieEnjoyerDetail'
+    PaginatedMovieList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Movie'
+    PaginatedPersonalCompDetailList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonalCompDetail'
+    PatchedAddMovie:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 50
+        movies:
+          type: array
+          items:
+            type: integer
+    PatchedMovie:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        release_date:
+          type: string
+          format: date-time
+          nullable: true
+        director:
+          type: string
+          maxLength: 100
+        cast:
+          type: string
+          maxLength: 200
+    PatchedMovieEnjoyerDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        date_joined:
+          type: string
+          format: date-time
+        compilation:
+          type: array
+          items:
+            type: integer
+    PersonalCompCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 50
+      required:
+      - name
+    PersonalCompDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        movies:
+          type: array
+          items:
+            type: string
+      required:
+      - id
+      - movies
+      - name
+      - user
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
